@@ -1,0 +1,35 @@
+name:                game-theoretic-learning
+version:             0.1.0.0
+synopsis:            A library for game theoretic learning simulations.
+homepage:            http://github.com/dudebout/game-theoretic-learning
+license:             OtherLicense
+license-file:        LICENSE
+author:              Nicolas Dudebout
+maintainer:          Nicolas Dudebout <nicolas.dudebout@gatech.edu>
+category:            Math
+build-type:          Simple
+cabal-version:       >=1.8
+
+library
+  exposed-modules: GTL.Numeric.MarkovDecisionProcess
+                 , GTL.Numeric.Probability
+                 , GTL.Numeric.MarkovChain.Ergodic
+                 , GTL.Numeric.MarkovDecisionProcess.Types
+                 , GTL.Numeric.MarkovDecisionProcess.Strategies
+                 , GTL.Numeric.MarkovDecisionProcess.PolicyIteration
+                 , GTL.Numeric.Probability.Finite
+                 , GTL.Data.Finite
+                 , GTL.Data.History
+                 , GTL.Data.History.TH
+                 , GTL.Data.History.Instances
+                 , GTL.Modeling.FullGame
+                 , GTL.Modeling.ModelState
+  build-depends: base ==4.5.*
+               , probability ==0.2.*
+               , hmatrix ==0.14.*
+               , array ==0.4.*
+               , mtl ==2.1.*
+               , monad-loops ==0.3.*
+               , wl-pprint ==1.1.*
+               , template-haskell ==2.7.*
+               , tuple ==0.2.*
