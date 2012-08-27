@@ -1,26 +1,17 @@
-module GTL.Numeric.MarkovDecisionProcess.PolicyIteration where
+module GTL.Numeric.DynamicProgramming.PolicyIteration where
 
-import GTL.Numeric.MarkovDecisionProcess.Types
+import GTL.Data.Utility (Value)
+import GTL.Data.DynamicProgramming
 import GTL.Numeric.Probability (Proba)
 import Numeric.LinearAlgebra
 import Data.Array.Unboxed
 import Control.Monad.RWS (RWS, evalRWS, get, gets, modify, ask, tell)
 import Control.Monad.Loops (untilM_)
 
-data Data = Data { stateCard :: StateI
-                 , actionCard :: ActionI
-                 , dynamicsI :: DynamicsI
-                 , utilityI :: UtilityI
-                 , discount :: Discount
-                 } deriving (Show)
-
-data Vars = Vars { value :: StateValueV
-                 , strategy :: DeterministicStrategyV
+data Vars = Vars { value             :: StateValueV
+                 , strategy          :: DeterministicStrategyV
                  , strategyUnchanged :: Bool
                  } deriving (Show)
-
-data Result = Result { valueFunction :: StateValueV
-                     , qFactor :: QFactorIV }
 
 type Debug = [Vars]
 
@@ -42,8 +33,8 @@ eval :: Comp a -> Data -> (a, Debug)
 eval comp mdp = evalRWS comp mdp (initVars mdp)
 
 initVars :: Data -> Vars
-initVars mdp = Vars { value = undefined
-                    , strategy = strat
+initVars mdp                            = Vars { value = undefined
+                    , strategy          = strat
                     , strategyUnchanged = False
                     }
     where xCard = stateCard mdp
@@ -61,8 +52,8 @@ computeStateValue :: Comp StateValueV
 computeStateValue = do
   Data { stateCard = xCard
        , dynamicsI = dyn
-       , utilityI = util
-       , discount = disc
+       , utilityI  = util
+       , discountD = disc
        } <- ask
   strat <- gets strategy
   let utilWithStrat = buildVector xCard $ util <# strat
@@ -92,11 +83,11 @@ updateDeterministicStrategy = do
 
 computeUtilWithVal :: Comp QFactorIV
 computeUtilWithVal = do
-  Data { stateCard = xCard
+  Data { stateCard  = xCard
        , actionCard = aCard
-       , dynamicsI = dyn
-       , utilityI = util
-       , discount = disc
+       , dynamicsI  = dyn
+       , utilityI   = util
+       , discountD  = disc
        } <- ask
   val <- gets value
   let oneShotUtil x = buildVector aCard $ util <! x

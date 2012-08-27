@@ -1,20 +1,19 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module GTL.Data.Finite ( module Data.Ix
-                       , rangeF, indexF, indexF2, indexF3, indexF2x2, indexF3x3
+module GTL.Data.Finite ( rangeF, indexF, indexF2, indexF3, indexF2x2, indexF3x3
                        , indexI, indexI2, indexI3, ixmapI, ixmapI2, ixmapI3
                        , ixmapF, ixmapF2, ixmapF3, functionF, functionF2, functionF3
-                       , listI, listsI, vectorI, matrixI, finiteFunctions ) where
+                       , listI, listsI, vectorI, matrixI, finiteFunctions
+                       , cartesianProduct2 ) where
 
 import Data.Ix (Ix(..))
 import Numeric.LinearAlgebra hiding (toList, toLists)
 import qualified Numeric.LinearAlgebra as Lin (toList, toLists)
 import Control.Monad (liftM2)
 import Control.Arrow ((***))
+import Control.Applicative ((<$>), (<*>))
 import Data.Array.IArray (IArray, array, bounds, ixmap)
 import Foreign.Storable (Storable)
-import Data.Packed.Matrix (Element)
-import Text.PrettyPrint.Leijen
 
 -- | Suffix F: the input is Finite (i.e. Ix and Bounded data) indexed,
 -- Suffix I: the input is Int indexed
@@ -98,8 +97,5 @@ finiteFunctions = map listI outputsList
 instance (Ix a, Bounded a, Eq b) => Eq (a -> b)
     where f == g = all (\a -> f a == g a) rangeF
 
-arrow :: Doc
-arrow = text "->"
-
-instance (Ix a, Bounded a, Pretty a, Pretty b) => Pretty (a -> b) where
-    pretty fun = vcat [hsep [pretty a, arrow, align $ pretty $ fun a] | a <- rangeF]
+cartesianProduct2 :: [x] -> [y] -> [(x, y)]
+cartesianProduct2 xs ys = (,) <$> xs <*> ys

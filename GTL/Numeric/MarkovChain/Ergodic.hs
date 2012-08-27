@@ -3,7 +3,7 @@ module GTL.Numeric.MarkovChain.Ergodic (ergodicStationary) where
 
 import GTL.Numeric.Probability (Dist, Trans)
 import GTL.Numeric.Probability.Finite (fromVector, toMatrix)
-import GTL.Data.Finite (Ix)
+import Data.Ix (Ix)
 import Data.Maybe (mapMaybe)
 import Numeric.LinearAlgebra
 
@@ -17,7 +17,6 @@ unique :: [Vector Double] -> Vector Double
 unique vs | num == 1  = head vs
           | otherwise = error $ "An ergodic transition matrix MUST have a UNIQUE stationary distribution. Found: " ++ show num
           where num = length vs
-
 
 complexTolerance :: Double
 complexTolerance = 100 * eps

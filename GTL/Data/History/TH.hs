@@ -4,7 +4,7 @@ module GTL.Data.History.TH where
 
 import Language.Haskell.TH
 import GTL.Data.History
-import GTL.Data.Finite (Ix(..))
+import Data.Ix (Ix(..))
 import Data.List (elemIndex)
 import Data.Maybe (fromJust)
 import Control.Monad (liftM)
@@ -35,7 +35,6 @@ buildHistory num = do
   catDecsQ [ createHistoryType cons decons
            , instantiateBounded cons len
            , instantiateIx cons decons len
-           , instantiatePretty cons decons
            , instantiateHistory cons decons len typeName num]
 
 -- newtype History<k> a = History<k> { fromHistory<k> :: [a] }
@@ -56,11 +55,6 @@ instantiateIx cons decons len =
             where finiteRange = sequence . (map range) . (map (uncurry (,))) . (uncurry zip)
         inRange (minB, maxB) idx = elem idx $ range (minB, maxB)
         index (minB, maxB) idx = fromJust $ elemIndex idx $ range (minB, maxB)|]
-
-instantiatePretty :: Name -> Name -> Q [Dec]
-instantiatePretty cons decons =
-  [d|instance Pretty a => Pretty ($(conT cons) a) where
-        pretty = pretty . $(varE decons)|]
 
 instantiateHistory ::  Name -> Name -> ExpQ -> String -> Integer -> Q [Dec]
 instantiateHistory cons decons len typeName num =

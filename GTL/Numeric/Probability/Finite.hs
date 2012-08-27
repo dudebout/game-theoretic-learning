@@ -6,7 +6,8 @@ import GTL.Numeric.Probability (Dist, Trans, Proba, (?!))
 import Numeric.Probability.Distribution (norm, relative, decons)
 import Numeric.LinearAlgebra hiding (toList, toLists, fromList, fromLists, (<>))
 import qualified Numeric.LinearAlgebra as Lin (toList, fromLists)
-import GTL.Data.Finite (Ix, rangeF)
+import Data.Ix (Ix)
+import GTL.Data.Finite (rangeF)
 import Text.PrettyPrint.Leijen
 import Text.Printf (printf)
 

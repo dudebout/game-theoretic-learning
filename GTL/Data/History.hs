@@ -1,5 +1,7 @@
 module GTL.Data.History where
 
+import Data.Ix (Ix)
+
 class History history where
     toHistory :: [a] -> history a
     fromHistory :: history a -> [a]

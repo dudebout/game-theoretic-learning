@@ -11,19 +11,27 @@ build-type:          Simple
 cabal-version:       >=1.8
 
 library
-  exposed-modules: GTL.Numeric.MarkovDecisionProcess
-                 , GTL.Numeric.Probability
-                 , GTL.Numeric.MarkovChain.Ergodic
-                 , GTL.Numeric.MarkovDecisionProcess.Types
-                 , GTL.Numeric.MarkovDecisionProcess.Strategies
-                 , GTL.Numeric.MarkovDecisionProcess.PolicyIteration
-                 , GTL.Numeric.Probability.Finite
+  exposed-modules: GTL.Data.Dynamic
+                 , GTL.Data.DynamicProgramming
                  , GTL.Data.Finite
                  , GTL.Data.History
                  , GTL.Data.History.TH
                  , GTL.Data.History.Instances
-                 , GTL.Modeling.FullGame
-                 , GTL.Modeling.ModelState
+                 , GTL.Data.MarkovDecisionProcess
+                 , GTL.Data.Mockup
+                 , GTL.Data.Signaling
+                 , GTL.Data.Strategy
+                 , GTL.Data.Utility
+                 , GTL.Interaction.Consistency2
+                 , GTL.Interaction.EEE2
+                 , GTL.Interaction.Optimality2
+                 , GTL.Learning.FictitiousPlay
+                 , GTL.Numeric.DynamicProgramming
+                 , GTL.Numeric.DynamicProgramming.PolicyIteration
+                 , GTL.Numeric.MarkovChain.Ergodic
+                 , GTL.Numeric.Probability
+                 , GTL.Numeric.Probability.Finite
+                 , GTL.PrettyPrint
   build-depends: base ==4.5.*
                , probability ==0.2.*
                , hmatrix ==0.14.*
