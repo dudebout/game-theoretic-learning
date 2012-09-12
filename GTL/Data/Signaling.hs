@@ -1,8 +1,10 @@
-module GTL.Data.Signaling ( SignalingWXAS2
+module GTL.Data.Signaling ( SignalingWXAS, SignalingWXAS2
                           , SignalingXAS2, SignalingwXAS2, toSignalingXAS2, toSignalingwXAS2
                           , SignalingAS2, SignalingwxAS2, toSignalingAS2, toSignalingwxAS2 ) where
 
 import GTL.Numeric.Probability (Dist)
+
+type SignalingWXAS w x a s = w -> x -> a -> Dist (w, s)
 
 type SignalingWXAS2 w x1 a1 s1 x2 a2 s2 = w -> x1 -> a1 -> x2 -> a2 -> Dist (w, s1, s2)
 

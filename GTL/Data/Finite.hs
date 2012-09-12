@@ -1,11 +1,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module GTL.Data.Finite ( rangeF, indexF, indexF2, indexF3, indexF2x2, indexF3x3
+module GTL.Data.Finite ( boundsF, rangeF, indexF, indexF2, indexF3, indexF2x2, indexF3x3
                        , indexI, indexI2, indexI3, ixmapI, ixmapI2, ixmapI3
                        , ixmapF, ixmapF2, ixmapF3, functionF, functionF2, functionF3
                        , listI, listsI, vectorI, matrixI, finiteFunctions
                        , cartesianProduct2 ) where
 
+import Data.Tuple.Curry (uncurryN)
 import Data.Ix (Ix(..))
 import Numeric.LinearAlgebra hiding (toList, toLists)
 import qualified Numeric.LinearAlgebra as Lin (toList, toLists)
@@ -73,8 +74,7 @@ functionF2 :: (IArray a e, Ix b, Bounded b, Ix c, Bounded c) => (b -> c -> e) ->
 functionF2 = functionF . uncurry
 
 functionF3 :: (IArray a e, Ix b, Bounded b, Ix c, Bounded c, Ix d, Bounded d) => (b -> c -> d -> e) -> a (b, c, d) e
-functionF3 = functionF . uncurry3
-    where uncurry3 f (x, y, z) = f x y z
+functionF3 = functionF . uncurryN
 
 listI :: (Ix a, Bounded a) => [b] -> a -> b
 listI l y = l !! indexF y

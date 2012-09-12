@@ -7,18 +7,18 @@ import GTL.Data.Signaling (SignalingWXAS2)
 import GTL.Numeric.MarkovChain.Ergodic (ergodicStationary)
 
 import GTL.Data.History (History)
-import GTL.Data.Mockup (Mockup, MockupState, addToMockupState, MockupStrategy, Role(..))
+import GTL.Data.Mockup (Mockup, MockupState, updateMockupState, MockupStrategy, Role(..))
 
 import Data.Ix (Ix)
 import Data.Tuple.Curry (uncurryN)
 import GTL.Numeric.Probability (Trans, (>>=$))
 import Numeric.Probability.Distribution ((>>=?), just, norm, certainly)
 
-data System2 w x1 a1 s1 h1 h1' x2 a2 s2 h2 h2' = System2 { signaling2 :: SignalingWXAS2 w x1 a1 s1 x2 a2 s2
-                                                         , dynamics1  :: DynamicXAS x1 a1 s1
-                                                         , dynamics2  :: DynamicXAS x2 a2 s2
-                                                         , strategy1  :: MockupStrategy x1 a1 s1 h1 h1'
-                                                         , strategy2  :: MockupStrategy x2 a2 s2 h2 h2' }
+data System2 w x1 a1 s1 h1 h1' x2 a2 s2 h2 h2' = System2 { signaling :: SignalingWXAS2 w x1 a1 s1 x2 a2 s2
+                                                         , dynamic1  :: DynamicXAS x1 a1 s1
+                                                         , dynamic2  :: DynamicXAS x2 a2 s2
+                                                         , strategy1 :: MockupStrategy x1 a1 s1 h1 h1'
+                                                         , strategy2 :: MockupStrategy x2 a2 s2 h2 h2' }
 
 data JointState2 w x1 a1 s1 h1 h1' x2 a2 s2 h2 h2' = JointState2 { worldState   :: w
                                                                  , state1       :: x1
@@ -45,22 +45,22 @@ systemToMockups2 :: ( Bounded w, Ix w, Bounded x1, Ix x1, Bounded x2, Ix x2
                     , History h1, History h1'
                     , History h2, History h2'
                     ) => System2 w x1 a1 s1 h1 h1' x2 a2 s2 h2 h2' -> (Mockup a1 s1 h1 h1', Mockup a2 s2 h2 h2')
-systemToMockups2 syst = (pred1, pred2)
+systemToMockups2 syst = (mock1, mock2)
     where
-      pred1 y1   = norm $ statDist >>=? condit1 y1 >>= computeStatesAndActions >>= sig >>=$ extractSignal1
-      pred2 y2   = norm $ statDist >>=? condit2 y2 >>= computeStatesAndActions >>= sig >>=$ extractSignal2
+      mock1 z1   = norm $ statDist >>=? condit1 z1 >>= computeStatesAndActions >>= sig >>=$ extractSignal1
+      mock2 z2   = norm $ statDist >>=? condit2 z2 >>= computeStatesAndActions >>= sig >>=$ extractSignal2
       statDist   = ergodicStationary $ transition2 syst
-      condit1 y1 = just y1 . mockupState1
-      condit2 y2 = just y2 . mockupState2
-      sig        = uncurryN $ signaling2 syst
+      condit1 z1 = just z1 . mockupState1
+      condit2 z2 = just z2 . mockupState2
+      sig        = uncurryN $ signaling syst
       strat1     = strategy1 syst
       strat2     = strategy2 syst
-      computeStatesAndActions j = do
-        let w  = worldState j
-        let x1 = state1 j
-        let x2 = state2 j
-        a1 <- strat1 x1 (mockupState1 j)
-        a2 <- strat2 x2 (mockupState2 j)
+      computeStatesAndActions joint = do
+        let w  = worldState joint
+        let x1 = state1 joint
+        let x2 = state2 joint
+        a1 <- strat1 x1 (mockupState1 joint)
+        a2 <- strat2 x2 (mockupState2 joint)
         return (w, x1, a1, x2, a2)
       extractSignal1 (_, s, _) = s
       extractSignal2 (_, _, s) = s
@@ -68,20 +68,20 @@ systemToMockups2 syst = (pred1, pred2)
 toSystem2 :: Role x1 a1 s1 -> Role x2 a2 s2 -> SignalingWXAS2 w x1 a1 s1 x2 a2 s2
           -> MockupStrategy x1 a1 s1 h1 h1' -> MockupStrategy x2 a2 s2 h2 h2'
           -> System2 w x1 a1 s1 h1 h1' x2 a2 s2 h2 h2'
-toSystem2 rol1 rol2 sig strat1 strat2 = System2 sig dyn1 dyn2 strat1 strat2
+toSystem2 rol1 rol2 sig = System2 sig dyn1 dyn2
     where dyn1 = augmentedDynamic rol1
           dyn2 = augmentedDynamic rol2
 
 transition2 :: (History h1, History h1', History h2, History h2') =>
                System2 w x1 a1 s1 h1 h1' x2 a2 s2 h2 h2'
             -> Trans (JointState2 w x1 a1 s1 h1 h1' x2 a2 s2 h2 h2')
-transition2 syst (JointState2 w x1 y1 x2 y2) = do
-  a1'            <- strat1 x1 y1
-  a2'            <- strat2 x2 y2
+transition2 syst (JointState2 w x1 z1 x2 z2) = do
+  a1'            <- strat1 x1 z1
+  a2'            <- strat2 x2 z2
   (w', s1', s2') <- signal w x1 a1' x2 a2'
-  y1'            <- certainly $ addToMockupState y1 a1' s1'
-  y2'            <- certainly $ addToMockupState y2 a2' s2'
+  z1'            <- certainly $ updateMockupState z1 a1' s1'
+  z2'            <- certainly $ updateMockupState z2 a2' s2'
   x1'            <- dyn1 x1 a1' s1'
   x2'            <- dyn2 x2 a2' s2'
-  return $ JointState2 w' x1' y1' x2' y2'
+  return $ JointState2 w' x1' z1' x2' z2'
       where (System2 signal dyn1 dyn2 strat1 strat2) = syst

@@ -21,10 +21,14 @@ library
                  , GTL.Data.Mockup
                  , GTL.Data.Signaling
                  , GTL.Data.Strategy
+                 , GTL.Data.Unitless
                  , GTL.Data.Utility
+                 , GTL.Interaction.Consistency
                  , GTL.Interaction.Consistency2
                  , GTL.Interaction.EEE2
-                 , GTL.Interaction.Optimality2
+                 , GTL.Interaction.Learning
+                 , GTL.Interaction.Learning2
+                 , GTL.Interaction.Optimality
                  , GTL.Learning.FictitiousPlay
                  , GTL.Numeric.DynamicProgramming
                  , GTL.Numeric.DynamicProgramming.PolicyIteration

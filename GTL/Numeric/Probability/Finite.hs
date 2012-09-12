@@ -1,15 +1,21 @@
 {-# LANGUAGE FlexibleInstances #-}
 
-module GTL.Numeric.Probability.Finite (toList, fromList, toLists, toMatrix, fromVector) where
+module GTL.Numeric.Probability.Finite (toList, fromList, toLists, toMatrix, fromVector, almostCertainly) where
 
+import GTL.Data.Unitless
 import GTL.Numeric.Probability (Dist, Trans, Proba, (?!))
-import Numeric.Probability.Distribution (norm, relative, decons)
+import Numeric.Probability.Distribution (relative, certainly)
 import Numeric.LinearAlgebra hiding (toList, toLists, fromList, fromLists, (<>))
 import qualified Numeric.LinearAlgebra as Lin (toList, fromLists)
 import Data.Ix (Ix)
 import GTL.Data.Finite (rangeF)
-import Text.PrettyPrint.Leijen
-import Text.Printf (printf)
+
+-- |Creates a distribution with all the weight but epsilon on a given element.
+almostCertainly :: (Ix a, Bounded a) => Unitless -> a -> Dist a
+almostCertainly epsi a = fromList $ map replacements initial
+    where initial = toList $ certainly a
+          replacements 1 = 1 - epsi
+          replacements _ = epsi / (fromIntegral (length initial) - 1)
 
 -- |Gives the list of probabilities for a finite distribution.
 toList :: (Ix a, Bounded a, Eq a) => Dist a -> [Proba]
@@ -30,14 +36,3 @@ toMatrix = Lin.fromLists . toLists
 -- |Creates a distribution from a 'Vector'.
 fromVector :: (Bounded a, Ix a) => Vector Proba -> Dist a
 fromVector = fromList . Lin.toList
-
-trunc:: Int -> Double -> Doc
-trunc precision = text . printf ("%." ++ show precision ++ "f")
-
-distrib :: Doc
-distrib = text "~"
-
-instance (Ix a, Bounded a, Pretty a, Ord a) => Pretty (Dist a) where
-    pretty = probaList . map (\(x, p) -> probaPair [pretty x, trunc 4 p]) . decons . norm
-        where probaPair = encloseSep empty empty distrib
-              probaList = encloseSep  (lbrace <> space) (space <> rbrace) (semi <> space)

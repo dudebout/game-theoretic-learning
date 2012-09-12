@@ -8,7 +8,6 @@ import Data.Ix (Ix(..))
 import Data.List (elemIndex)
 import Data.Maybe (fromJust)
 import Control.Monad (liftM)
-import Text.PrettyPrint.Leijen (Pretty, pretty)
 
 catDecsQ :: [Q [Dec]] -> Q [Dec]
 catDecsQ = (liftM concat) . sequence

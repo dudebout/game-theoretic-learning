@@ -1,12 +1,15 @@
-{-# LANGUAGE FlexibleContexts, FlexibleInstances, OverlappingInstances #-}
+{-# LANGUAGE FlexibleContexts, FlexibleInstances, OverlappingInstances, UndecidableInstances #-}
 
 module GTL.PrettyPrint where
 
-import Text.PrettyPrint.Leijen (Pretty, pretty, tupled, vcat, hsep, align, Doc, text)
+import Text.PrettyPrint.Leijen (Pretty, pretty, tupled, vcat, hsep, align, Doc, text, (<>), rbrace, lbrace, space, encloseSep, empty, semi)
+import Text.Printf (printf)
 import Data.Ix (Ix)
 import GTL.Data.Finite (rangeF)
 import GTL.Data.Mockup (MockupState(..), ExogenousMockupState)
-import GTL.Data.History
+import GTL.Data.History (History(..))
+import GTL.Numeric.Probability (Dist)
+import Numeric.Probability.Distribution (decons, norm)
 
 arrow :: Doc
 arrow = text "->"
@@ -26,3 +29,17 @@ instance (Pretty a, History h) => Pretty (h a) where
     pretty h = pretty $ case (fromHistory h) of
                a:[] -> pretty a
                as   -> pretty as
+
+trunc:: Int -> Double -> Doc
+trunc precision = text . printf ("%." ++ show precision ++ "f")
+
+distrib :: Doc
+distrib = text "~"
+
+instance (Ix a, Bounded a, Pretty a, Ord a) => Pretty (Dist a) where
+    pretty = probaList . map (\(x, p) -> probaPair [pretty x, trunc 4 p]) . decons . norm
+        where probaPair = encloseSep empty empty distrib
+              probaList = encloseSep  (lbrace <> space) (space <> rbrace) (semi <> space)
+
+instance Show a => Pretty a where
+    pretty = text . show
