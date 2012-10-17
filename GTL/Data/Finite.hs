@@ -1,8 +1,10 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 module GTL.Data.Finite ( boundsF, rangeF, indexF, indexF2, indexF3, indexF2x2, indexF3x3
                        , indexI, indexI2, indexI3, ixmapI, ixmapI2, ixmapI3
                        , ixmapF, ixmapF2, ixmapF3, functionF, functionF2, functionF3
+                       , functionV, argmax
                        , listI, listsI, vectorI, matrixI, finiteFunctions
                        , cartesianProduct2 ) where
 
@@ -76,6 +78,9 @@ functionF2 = functionF . uncurry
 functionF3 :: (IArray a e, Ix b, Bounded b, Ix c, Bounded c, Ix d, Bounded d) => (b -> c -> d -> e) -> a (b, c, d) e
 functionF3 = functionF . uncurryN
 
+functionV :: (Ix a, Bounded a, Storable b) => (a -> b) -> Vector b
+functionV f = fromList $ map f rangeF
+
 listI :: (Ix a, Bounded a) => [b] -> a -> b
 listI l y = l !! indexF y
 
@@ -99,3 +104,6 @@ instance (Ix a, Bounded a, Eq b) => Eq (a -> b)
 
 cartesianProduct2 :: [x] -> [y] -> [(x, y)]
 cartesianProduct2 xs ys = (,) <$> xs <*> ys
+
+argmax :: (Bounded a, Ix a, Storable b, Container Vector b) => (a -> b) -> a
+argmax f = indexI $ maxIndex $ functionV f
