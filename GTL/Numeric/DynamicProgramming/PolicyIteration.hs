@@ -33,7 +33,7 @@ eval :: Comp a -> Data -> (a, Debug)
 eval comp mdp = evalRWS comp mdp (initVars mdp)
 
 initVars :: Data -> Vars
-initVars mdp                            = Vars { value = undefined
+initVars mdp = Vars { value             = undefined
                     , strategy          = strat
                     , strategyUnchanged = False
                     }
