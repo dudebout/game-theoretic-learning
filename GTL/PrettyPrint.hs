@@ -1,4 +1,7 @@
-{-# LANGUAGE FlexibleContexts, FlexibleInstances, OverlappingInstances, UndecidableInstances #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverlappingInstances #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 module GTL.PrettyPrint where
 
