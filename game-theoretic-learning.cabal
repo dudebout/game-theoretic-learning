@@ -1,11 +1,13 @@
 name:                game-theoretic-learning
 version:             0.1.0.0
 synopsis:            A library for game theoretic learning simulations.
+description:         A library for game theoretic learning simulations.
 homepage:            http://github.com/dudebout/game-theoretic-learning
 license:             OtherLicense
 license-file:        LICENSE
 author:              Nicolas Dudebout
 maintainer:          Nicolas Dudebout <nicolas.dudebout@gatech.edu>
+copyright:           (c) 2012, Nicolas Dudebout <nicolas.dudebout@gatech.edu>
 category:            Math
 build-type:          Simple
 cabal-version:       >=1.8
