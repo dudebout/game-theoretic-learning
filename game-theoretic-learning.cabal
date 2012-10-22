@@ -47,3 +47,5 @@ library
                , wl-pprint ==1.1.*
                , template-haskell ==2.7.*
                , tuple ==0.2.*
+               , HList ==0.2.*
+               , tuple-hlist ==0.1.*
