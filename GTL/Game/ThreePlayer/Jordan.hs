@@ -1,5 +1,10 @@
-module GTL.Game.ThreePlayer.Jordan where
+module GTL.Game.ThreePlayer.Jordan ( module GTL.Game.ThreePlayer
+                                   , Action1(..), Signal1, u1
+                                   , Action2(..), Signal2, u2
+                                   , Action3(..), Signal3, u3
+                                   ) where
 
+import GTL.Game.ThreePlayer
 import Data.Ix (Ix)
 
 data Action1 = H1 | T1 deriving (Show, Bounded, Ix, Eq, Ord)

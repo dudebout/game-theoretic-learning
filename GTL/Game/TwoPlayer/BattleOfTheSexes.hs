@@ -1,5 +1,9 @@
-module GTL.Game.TwoPlayer.BattleOfTheSexes where
+module GTL.Game.TwoPlayer.BattleOfTheSexes ( module GTL.Game.TwoPlayer
+                                           , ActionM(..), SignalM, uM
+                                           , ActionW(..), SignalW, uW
+                                           ) where
 
+import GTL.Game.TwoPlayer
 import Data.Ix (Ix)
 
 data ActionM = Om | Fm deriving (Show, Bounded, Ix, Eq, Ord)

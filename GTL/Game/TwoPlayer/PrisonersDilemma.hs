@@ -1,5 +1,10 @@
-module GTL.Game.TwoPlayer.PrisonersDilema where
+module GTL.Game.TwoPlayer.PrisonersDilema ( module GTL.Game.TwoPlayer
+                                          , Action1(..), Signal1, u1
+                                          , Action2(..), Signal2, u2
+                                          ) where
 
+
+import GTL.Game.TwoPlayer
 import Data.Ix (Ix)
 
 data Action1 = C1 | D1 deriving (Show, Bounded, Ix, Eq, Ord)
