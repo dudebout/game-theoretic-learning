@@ -25,6 +25,12 @@ library
                  , GTL.Data.Strategy
                  , GTL.Data.Unitless
                  , GTL.Data.Utility
+                 , GTL.Game.ThreePlayer
+                 , GTL.Game.ThreePlayer.Jordan
+                 , GTL.Game.TwoPlayer
+                 , GTL.Game.TwoPlayer.BattleOfTheSexes
+                 , GTL.Game.TwoPlayer.PrisonersDilemma
+                 , GTL.Game.TwoPlayer.Shapley
                  , GTL.Interaction.Consistency
                  , GTL.Interaction.Consistency2
                  , GTL.Interaction.EEE2
