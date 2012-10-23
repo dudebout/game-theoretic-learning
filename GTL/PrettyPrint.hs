@@ -2,12 +2,14 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverlappingInstances #-}
 {-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 
 module GTL.PrettyPrint where
 
 import Text.PrettyPrint.Leijen (Pretty, pretty, tupled, vcat, hsep, align, Doc, text, (<>), rbrace, lbrace, space, encloseSep, empty, semi)
 import Text.Printf (printf)
 import Data.Ix (Ix)
+import Data.HList (HMapOut, hMapOut, Apply, apply)
 import GTL.Data.Finite (rangeF)
 import GTL.Data.Mockup (MockupState(..), ExogenousMockupState)
 import GTL.Data.History (History(..))
@@ -46,3 +48,9 @@ instance (Ix a, Bounded a, Pretty a, Ord a) => Pretty (Dist a) where
 
 instance Show a => Pretty a where
     pretty = text . show
+
+data PrettyH = PrettyH
+instance Pretty a => Apply PrettyH a Doc where apply _ x = pretty x
+
+hPretty :: HMapOut PrettyH a Doc => a -> [Doc]
+hPretty = hMapOut PrettyH
