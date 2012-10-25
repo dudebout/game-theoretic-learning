@@ -44,14 +44,18 @@ library
                  , GTL.Numeric.Probability
                  , GTL.Numeric.Probability.Finite
                  , GTL.PrettyPrint
-  build-depends: base ==4.5.*
-               , probability ==0.2.*
-               , hmatrix ==0.14.*
-               , array ==0.4.*
-               , mtl ==2.1.*
-               , monad-loops ==0.3.*
-               , wl-pprint ==1.1.*
+  build-depends: base             ==4.5.*
+               , probability      ==0.2.*
+               , hmatrix          ==0.14.*
+               , array            ==0.4.*
+               , mtl              ==2.1.*
+               , monad-loops      ==0.3.*
+               , wl-pprint        ==1.1.*
                , template-haskell ==2.7.*
-               , tuple ==0.2.*
-               , HList ==0.2.*
-               , tuple-hlist ==0.1.*
+               , tuple            ==0.2.*
+               , HList            ==0.2.*
+               , tuple-hlist      >=0.1.0.6
+
+source-repository head
+  type:     git
+  location: http://github.com/dudebout/game-theoretic-learning
