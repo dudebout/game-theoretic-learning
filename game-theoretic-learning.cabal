@@ -19,6 +19,9 @@ library
                  , GTL.Data.History
                  , GTL.Data.History.TH
                  , GTL.Data.History.Instances
+                 , GTL.Data.HList.HZip3
+                 , GTL.Data.HList.HZip4
+                 , GTL.Data.HList.Vector
                  , GTL.Data.MarkovDecisionProcess
                  , GTL.Data.Mockup
                  , GTL.Data.Signaling
