@@ -1,12 +1,12 @@
 {-# LANGUAGE FlexibleInstances #-}
 
-module GTL.Numeric.Probability.Finite (toList, fromList, toLists, toMatrix, fromVector, almostCertainly) where
+module GTL.Numeric.Probability.Finite (toList, fromList, toLists, toMatrix, toVector, fromVector, almostCertainly) where
 
 import GTL.Data.Unitless
 import GTL.Numeric.Probability (Dist, Trans, Proba, (?!))
 import Numeric.Probability.Distribution (relative, certainly)
 import Numeric.LinearAlgebra hiding (toList, toLists, fromList, fromLists, (<>))
-import qualified Numeric.LinearAlgebra as Lin (toList, fromLists)
+import qualified Numeric.LinearAlgebra as Lin (toList, fromList, fromLists)
 import Data.Ix (Ix)
 import GTL.Data.Finite (rangeF)
 
@@ -32,6 +32,10 @@ toLists t = map (toList . t) rangeF
 -- |Goes from a transition probability to a 'Matrix'.
 toMatrix :: (Bounded a, Ix a, Eq a) => Trans a -> Matrix Proba
 toMatrix = Lin.fromLists . toLists
+
+-- |Creates a 'Vector' from a distribution.
+toVector :: (Bounded a, Ix a) => Dist a -> Vector Proba
+toVector = Lin.fromList . toList
 
 -- |Creates a distribution from a 'Vector'.
 fromVector :: (Bounded a, Ix a) => Vector Proba -> Dist a
