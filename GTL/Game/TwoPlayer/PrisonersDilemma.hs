@@ -1,7 +1,7 @@
-module GTL.Game.TwoPlayer.PrisonersDilema ( module GTL.Game.TwoPlayer
-                                          , Action1(..), Signal1, u1
-                                          , Action2(..), Signal2, u2
-                                          ) where
+module GTL.Game.TwoPlayer.PrisonersDilemma ( module GTL.Game.TwoPlayer
+                                           , Action1(..), Signal1, u1
+                                           , Action2(..), Signal2, u2
+                                           ) where
 
 
 import GTL.Game.TwoPlayer
