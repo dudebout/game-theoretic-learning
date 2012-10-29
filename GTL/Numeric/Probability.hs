@@ -4,9 +4,10 @@ module GTL.Numeric.Probability ( Proba, Dist, Trans, (>>=$), (?!)
 import Numeric.Probability.Distribution (T, just, (??))
 import qualified Numeric.Probability.Transition as Transition (T)
 import Control.Monad (liftM2, liftM3, liftM4, liftM5)
+import GTL.Data.Unitless (ZeroOne)
 
 -- |Using probabilities on Double because it is optimized.
-type Proba = Double
+type Proba = ZeroOne
 -- |Probability distribution.
 type Dist = T Proba
 -- |Probability transition.

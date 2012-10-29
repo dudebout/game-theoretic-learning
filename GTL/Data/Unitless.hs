@@ -1,5 +1,5 @@
-module GTL.Data.Unitless (Unitless) where
+module GTL.Data.Unitless (Unitless, ZeroOne, StepSize) where
 
 type Unitless = Double
-
-data ZeroOne = ZeroOne Double
+type ZeroOne  = Unitless
+type StepSize = Unitless

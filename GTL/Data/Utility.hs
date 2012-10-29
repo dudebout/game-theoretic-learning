@@ -1,10 +1,11 @@
 module GTL.Data.Utility ( Value, Unitless, Discount, Epsilon, UtilityXA
-                        , UtilityXAS, UtilityxAS, UtilityAS, toUtilityxAS) where
+                        , UtilityXAS, UtilityxAS, UtilityAS, toUtilityAS, toUtilityxAS) where
 
-type Value = Double
-type Unitless = Double
+import GTL.Data.Unitless (Unitless)
+
+type Value    = Double
 type Discount = Unitless
-type Epsilon = Value
+type Epsilon  = Value
 
 -- State Action and Signal
 type UtilityXAS x a s = x -> a -> s -> Value

@@ -26,6 +26,7 @@ library
                  , GTL.Data.Mockup
                  , GTL.Data.Signaling
                  , GTL.Data.Strategy
+                 , GTL.Data.Time
                  , GTL.Data.Unitless
                  , GTL.Data.Utility
                  , GTL.Game.ThreePlayer
