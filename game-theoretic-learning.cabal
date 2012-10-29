@@ -46,6 +46,7 @@ library
                  , GTL.Numeric.DynamicProgramming.PolicyIteration
                  , GTL.Numeric.MarkovChain.Ergodic
                  , GTL.Numeric.Probability
+                 , GTL.Numeric.Probability.EmpiricalFrequency
                  , GTL.Numeric.Probability.Finite
                  , GTL.PrettyPrint
   build-depends: base             ==4.5.*
