@@ -25,8 +25,9 @@ oneStep = do
               , time         = t
               , distribution = dist } <- get
   let obs = head observs
-      d'  = addObservation dist obs $ empiricalFrequencyStepSize t
-  put $ Accumulator (tail observs) (t + 1) d'
+      t'  = t + 1
+      d'  = addObservation dist obs $ empiricalFrequencyStepSize t'
+  put $ Accumulator (tail observs) t' d'
   return d'
 
 notDoneM :: State (Accumulator a) Bool
@@ -40,4 +41,4 @@ complete = whileM notDoneM oneStep
 
 computeEmpiricalFrequencies :: Ord a => [a] -> [Dist a]
 computeEmpiricalFrequencies []       = []
-computeEmpiricalFrequencies as@(a:_) = evalState complete $ Accumulator as 1 (certainly $ a)
+computeEmpiricalFrequencies (a:as) = certainly a:(evalState complete $ Accumulator as 1 (certainly a))
