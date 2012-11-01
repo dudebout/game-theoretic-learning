@@ -1,11 +1,16 @@
+{-# LANGUAGE TypeOperators #-}
+
 module GTL.Game.TwoPlayer.PrisonersDilemma ( module GTL.Game.TwoPlayer
                                            , Action1(..), Signal1, u1
                                            , Action2(..), Signal2, u2
+                                           , Actions, Signals
                                            ) where
 
 
 import GTL.Game.TwoPlayer
+import GTL.Data.Utility (UtilityAS)
 import Data.Ix (Ix)
+import Data.HList (HNil, (:*:))
 
 data Action1 = C1 | D1 deriving (Show, Bounded, Ix, Eq, Ord)
 type Signal1 = Action2
@@ -24,3 +29,6 @@ u2 D2 C1 = 2
 u2 C2 C1 = 1
 u2 D2 D1 = 0
 u2 C2 D1 = -1
+
+type Actions = Action1 :*: Action2 :*: HNil
+type Signals = Signal1 :*: Signal2 :*: HNil

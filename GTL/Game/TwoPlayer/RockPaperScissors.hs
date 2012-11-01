@@ -11,7 +11,6 @@ import GTL.Data.Utility (UtilityAS)
 import Data.Ix (Ix)
 import Data.HList (HNil, (:*:))
 
-
 data Action1 = R1 | P1 | S1 deriving (Show, Bounded, Ix, Eq, Ord)
 type Signal1 = Action2
 
