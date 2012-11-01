@@ -32,7 +32,8 @@ library
                  , GTL.Game.ThreePlayer
                  , GTL.Game.ThreePlayer.Jordan
                  , GTL.Game.TwoPlayer
-                 , GTL.Game.TwoPlayer.BattleOfTheSexes
+                 , GTL.Game.TwoPlayer.BattleOfTheSexes.Asymmetrical
+                 , GTL.Game.TwoPlayer.BattleOfTheSexes.Symmetrical
                  , GTL.Game.TwoPlayer.PrisonersDilemma
                  , GTL.Game.TwoPlayer.Shapley
                  , GTL.Interaction.Consistency
