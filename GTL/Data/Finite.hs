@@ -4,7 +4,7 @@
 module GTL.Data.Finite ( boundsF, rangeF, indexF, indexF2, indexF3, indexF2x2, indexF3x3
                        , indexI, indexI2, indexI3, ixmapI, ixmapI2, ixmapI3
                        , ixmapF, ixmapF2, ixmapF3, functionF, functionF2, functionF3
-                       , functionV, argmax
+                       , functionV, argmax, argmaxes
                        , listI, listsI, vectorI, matrixI, finiteFunctions
                        , cartesianProduct2 ) where
 
@@ -107,3 +107,8 @@ cartesianProduct2 xs ys = (,) <$> xs <*> ys
 
 argmax :: (Bounded a, Ix a, Storable b, Container Vector b) => (a -> b) -> a
 argmax f = indexI $ maxIndex $ functionV f
+
+argmaxes :: (Bounded a, Ix a, Eq b, Storable b, Container Vector b) => (a -> b) -> [a]
+argmaxes f = map indexI $ find (==maxValue) vector
+    where vector   = functionV f
+          maxValue = maxElement vector
